@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to About Her!</h1>
+        <p>This is a simple website dedicated to someone special. 💖</p>
+    </header>
+
+    <main>
+        <h2>Share Your Opinion About Mannat</h2>
+        <form action="/submit-feedback" method="post">
+            <label for="name">Your Name (optional):</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name">
+            <label for="feedback">Your Opinion</label>
+            <textarea id="feedback" name="feedback" rows="4" placeholder="Write your opinion here..." required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h2>Feedback</h2>
+        <% if (feedbacks.length > 0) { %>
+            <ul>
+                <% feedbacks.forEach(feedback => { %>
+                    <li>
+                        <strong><%= feedback.name %></strong> <small><%= feedback.timestamp %></small>
+                        <p><%= feedback.feedback %></p>
+                        <form action="/delete-feedback" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= feedback.id %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                        <form action="/edit-feedback" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= feedback.id %>">
+                            <input type="text" name="feedback" placeholder="Edit your feedback" required>
+                            <button type="submit">Edit</button>
+                        </form>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No feedback yet. Be the first to share your thoughts!</p>
+        <% } %>
+    </main>
+</body>
+</html>
